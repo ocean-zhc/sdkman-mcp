@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sdkman-mcp"
+version = "0.1.0"
+description = "SDKMAN! MCP Server for managing SDKs through Claude and other LLMs"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+keywords = ["sdkman", "sdk", "mcp", "claude", "llm"]
+authors = [
+    { name = "SDKMAN! MCP Team" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "mcp>=1.5.3",  # MCP Python SDK
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=23.7.0",
+    "flake8>=6.1.0",
+    "isort>=5.12.0",
+    "mypy>=1.5.1",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.1",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/your-username/sdkman-mcp"
+"Bug Tracker" = "https://github.com/your-username/sdkman-mcp/issues"
+
+[project.scripts]
+sdkman-mcp = "sdkman_mcp.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sdkman_mcp"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true 
