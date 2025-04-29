@@ -71,6 +71,57 @@ python -m src.sdkman_mcp.sdk_commands list java
 python -m src.sdkman_mcp.sdk_commands current
 ```
 
+## 与AI助手集成（MCP集成）
+
+SDKMAN交互式命令行工具可以与支持模型上下文协议（Model Context Protocol, MCP）的AI助手集成，让您能够通过与AI的对话直接管理SDK。
+
+### 与Claude Desktop集成
+
+要在Claude Desktop中使用此工具，编辑Claude配置文件：
+
+* MacOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+* Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+
+添加以下配置：
+
+```json
+{
+  "mcpServers": {
+    "sdkman": {
+      "command": "python",
+      "args": ["-m", "src.sdkman_mcp.sdk_commands"],
+      "env": {
+        "SDKMAN_DIR": "~/.sdkman"  // 可选，默认为~/.sdkman
+      },
+      "alwaysAllow": [
+        "list",
+        "current"
+      ]
+    }
+  }
+}
+```
+
+### 与其他支持MCP的AI助手集成
+
+对于其他支持MCP的AI助手：
+
+1. 配置助手使用此模块作为MCP服务器
+2. 提供模块路径：`src.sdkman_mcp.sdk_commands`
+3. 确保环境能够访问您的SDKMAN安装
+
+### 可用的MCP命令
+
+集成到MCP后，您可以使用自然语言与SDKMAN交互：
+
+* "列出可用的Java版本"
+* "安装Java 21"
+* "显示我当前安装的所有SDK"
+* "将Gradle更新到最新版本"
+* "将Java 17设置为默认版本"
+
+AI助手将解释这些命令并使用适当的SDKMAN函数来执行它们。
+
 ## 输出示例
 
 运行交互式安装器时，您将看到格式化的可用版本列表：
@@ -113,6 +164,15 @@ python -m src.sdkman_mcp.sdk_commands current
 2. 解析和格式化输出
 3. 提供交互式选择界面
 4. 使用适当的确认步骤处理安装
+
+## 故障排除
+
+常见问题和解决方案：
+
+- **找不到SDKMAN**：确保SDKMAN正确安装在`~/.sdkman`目录下，或设置`SDKMAN_DIR`环境变量
+- **权限被拒绝**：检查SDKMAN脚本是否具有执行权限
+- **命令未找到**：确保系统上可用bash（运行SDKMAN命令所需）
+- **MCP集成问题**：检查AI助手是否具有执行命令的适当权限
 
 ## 贡献
 

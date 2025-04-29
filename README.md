@@ -73,6 +73,57 @@ python -m src.sdkman_mcp.sdk_commands list java
 python -m src.sdkman_mcp.sdk_commands current
 ```
 
+## Using with AI Assistants (MCP Integration)
+
+SDKMAN Interactive CLI can be integrated with AI assistants that support the Model Context Protocol (MCP), allowing you to manage your SDKs directly through conversations with AI.
+
+### Integration with Claude Desktop
+
+To use this tool with Claude Desktop, edit the Claude configuration file:
+
+* MacOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+* Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+
+Add the following configuration:
+
+```json
+{
+  "mcpServers": {
+    "sdkman": {
+      "command": "python",
+      "args": ["-m", "src.sdkman_mcp.sdk_commands"],
+      "env": {
+        "SDKMAN_DIR": "~/.sdkman"  // Optional, defaults to ~/.sdkman
+      },
+      "alwaysAllow": [
+        "list",
+        "current"
+      ]
+    }
+  }
+}
+```
+
+### Using with Other MCP-Compatible AI Assistants
+
+For other AI assistants supporting MCP:
+
+1. Configure the assistant to use this module as an MCP server
+2. Provide the path to the module: `src.sdkman_mcp.sdk_commands`
+3. Ensure the environment has access to your SDKMAN installation
+
+### Available MCP Commands
+
+When integrated with MCP, you can interact with SDKMAN using natural language:
+
+* "List available Java versions"
+* "Install Java 21"
+* "Show my currently installed SDKs"
+* "Update Gradle to the latest version"
+* "Set Java 17 as the default version"
+
+The AI assistant will interpret these commands and use the appropriate SDKMAN functions to execute them.
+
 ## Example Output
 
 When running the interactive installer, you'll see a formatted list of available versions:
@@ -115,6 +166,15 @@ The tool provides an enhanced interface for SDKMAN by:
 2. Parsing and formatting the output
 3. Providing an interactive interface for selection
 4. Handling installation with proper confirmation steps
+
+## Troubleshooting
+
+Common issues and solutions:
+
+- **SDKMAN not found**: Ensure SDKMAN is properly installed at `~/.sdkman` or set the `SDKMAN_DIR` environment variable
+- **Permission denied**: Check that SDKMAN scripts have execution permissions
+- **Command not found**: Ensure bash is available on your system (required for running SDKMAN commands)
+- **MCP integration issues**: Check that the AI assistant has proper permissions to execute commands
 
 ## Contributing
 
